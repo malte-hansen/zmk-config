@@ -16,32 +16,48 @@ if SHIELD_TUKON_LEFT || SHIELD_TUKON_RIGHT
 config ZMK_SPLIT
     default y
 
-config TUKON_PM
-    bool "Tukon Automatic Power Management"
-    default y
-    select ZMK_POWER_DOMAINS
-    select ZMK_POWER_DOMAINS_DYNAMIC_DEFAULT
-    select PM_DEVICE
-    select PM_DEVICE_POWER_DOMAIN
-    select PM_DEVICE_RUNTIME
-    select POWER_DOMAIN
-    select POWER_DOMAIN_GPIO
-
 config TUKON_RGB_UNDERGLOW
     bool "Tukon per Key RGB LEDs"
     default n
     select ZMK_RGB_UNDERGLOW
-    select WS2812_STRIP
-    select SPI
-    select ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
-    select ZMK_RGB_UNDERGLOW_AUTO_OFF_USB
+
+config ZMK_EXT_POWER
+    default ZMK_RGB_UNDERGLOW
+
+if ZMK_RGB_UNDERGLOW
+
+config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
+    default y
+
+config ZMK_RGB_UNDERGLOW_AUTO_OFF_USB
+    default y if USB_DEVICE_STACK
+
+config ZMK_RGB_UNDERGLOW_BRT_START
+    default 10
+
+endif # ZMK_RGB_UNDERGLOW
 
 config TUKON_DISPLAY
     bool "Tukon OLED Display"
     default y
     select ZMK_DISPLAY
-    select I2C
-    select SSD1306
+    select REGULATOR
+
+if ZMK_DISPLAY
+
+config I2C
+    default y
+
+config SSD1306
+    default y
+
+config ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE
+    default n
+
+config ZMK_WIDGET_WPM_STATUS
+    default y if ZMK_SPLIT_ROLE_CENTRAL
+
+endif # ZMK_DISPLAY
 
 
 if LVGL

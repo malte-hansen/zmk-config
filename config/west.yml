@@ -2,17 +2,10 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    # Additional modules containing boards/shields/custom code can be listed here as well
-    # See
-    # https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-    - name: petejohanson
-      url-base: https://github.com/petejohanson
-    - name: fouf96
-      url-base: https://github.com/fouf96
   projects:
     - name: zmk
-      remote: fouf96
-      revision: power-merge-main
+      remote: zmkfirmware
+      revision: main
       import: app/west.yml
   self:
     path: config

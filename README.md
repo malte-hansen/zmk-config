@@ -12,7 +12,7 @@ half sends key events to the left.
    pushes and pull requests and can also be started manually.
 2. Download and extract the firmware artifact. Use the UF2 for
    `tukon_left` on the left controller and the UF2 for `tukon_right` on the
-   right controller. Both targets use `nice_nano_v2` in [`build.yaml`](build.yaml).
+   right controller. Both targets use `nice_nano//zmk` in [`build.yaml`](build.yaml).
 3. Connect one half over USB and double-tap its reset button to enter the
    bootloader. Copy that half's UF2 to the USB drive that appears. The controller
    restarts after flashing. Repeat for the other half.
@@ -46,12 +46,13 @@ toggle USB/Bluetooth output, and select the next profile, respectively.
 | File                                                                                            | What to edit                                                                      |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | [`tukon.keymap`](boards/shields/tukon/tukon.keymap)                                             | Layer bindings, hold-tap behavior, and combos                                     |
-| [`config/tukon.conf`](config/tukon.conf)                                                        | Idle timeout, Bluetooth options, OLED widgets, and RGB settings                   |
+| [`config/tukon.conf`](config/tukon.conf)                                                        | Idle timeout, Bluetooth options, and OLED and RGB toggles                        |
 | [`tukon.dtsi`](boards/shields/tukon/tukon.dtsi) and the [shield overlays](boards/shields/tukon) | Matrix wiring, per-half mapping, and peripheral hardware                          |
 | [`Kconfig.defconfig`](boards/shields/tukon/Kconfig.defconfig)                                   | Shield defaults, including split roles and peripheral features                    |
-| [`config/west.yml`](config/west.yml)                                                            | Firmware source, currently the `power-merge-main` branch of the `fouf96/zmk` fork |
+| [`config/west.yml`](config/west.yml)                                                            | Firmware source, upstream ZMK `main`                                             |
 
-The shield enables automatic peripheral power management and the SSD1306 OLED
-by default. The user configuration sets a 10-second idle timeout. The shield
-defaults to RGB off. To enable the per-key WS2812 LEDs, set
-`CONFIG_TUKON_RGB_UNDERGLOW=y` in `config/tukon.conf`.
+The shield enables the SSD1306 OLED by default. ZMK blanks the display after
+10 seconds of inactivity, with the OLED supply kept on so the display can wake
+without reinitialization. To enable the per-key WS2812 LEDs, set
+`CONFIG_TUKON_RGB_UNDERGLOW=y` in `config/tukon.conf`. ZMK uses the shield's
+RGB power switch to cut power on idle and when USB power is disconnected.
